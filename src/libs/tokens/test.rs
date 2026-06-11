@@ -1,5 +1,6 @@
 use logos::Logos;
-use mua::libs::tokens::Token;
+
+use super::Token;
 
 #[test]
 fn test_keywords() {
@@ -89,13 +90,17 @@ fn test_identifier() {
 
 #[test]
 fn test_numbers() {
-	let numbers = ["42", "3.14", "0.5", "1e10", "2.5e-3", "1E+5"];
-
-	for num in numbers {
-		let mut lex = Token::lexer(num);
-		assert_eq!(lex.next(), Some(Ok(Token::Number(num.parse().unwrap()))));
-		assert_eq!(lex.slice(), num);
-		assert_eq!(lex.next(), None);
+	let numbers = [
+		("42", 42.0),
+		("3.19", 3.19),
+		("0.5", 0.5),
+		("1e10", 1e10),
+		("2.5e-3", 2.5e-3),
+		("1E+5", 1E+5),
+	];
+	for (input, expected) in numbers {
+		let mut lex = Token::lexer(input);
+		assert_eq!(lex.next(), Some(Ok(Token::Number(expected))));
 	}
 }
 

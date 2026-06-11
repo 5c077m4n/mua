@@ -175,3 +175,6 @@ impl fmt::Display for Token {
 		}
 	}
 }
+
+#[cfg(test)]
+mod test;
